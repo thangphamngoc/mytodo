@@ -31,6 +31,7 @@ $(document).ready(function () {
         $("li").append("<span>\u00D7</span>");
         $("li span").addClass("close");
         // gán lại sự kiện cho các nút xóa
+        var close = $(".close");
         for (i = 0; i < close.length; i++) {
             close[i].click(function () {
                 // $(this).parent().style.display = "none";
@@ -40,8 +41,8 @@ $(document).ready(function () {
                 // deleteFromStorage(value_delete);
             });
         };
-        var all = $("#all");
-        all.html(number.length + " all-item");
+
+        $("#all").html($("li").length + " all-item");
 
         var datas = Storage.getStorage('todo');
         datas.forEach(function (item) {
@@ -142,6 +143,7 @@ $(document).ready(function () {
 
     //Khi button xóa được click thì ẩn phần tử li chứa nó
     var close = $(".close");
+    console.log(close.length);
     var i;
     for (i = 0; i < close.length; i++) {
         close[i].click(function () {
