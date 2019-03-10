@@ -28,17 +28,17 @@ $(document).ready(function () {
 
         $("#my-job").append("<li>"+inputValue+"</li>");
         $("#my-job").value = "";
-        $("li").append("<span>\u00D7</span>")
+        $("li").append("<span>\u00D7</span>");
         $("li span").addClass("close");
         // gán lại sự kiện cho các nút xóa
         for (i = 0; i < close.length; i++) {
-            close[i].onclick = function () {
+            close[i].click(function () {
                 // $(this).parent().style.display = "none";
                 var div = $(this).parent();
                 div.style.display = "none";
                 // var value_delete = div.innerText.replace('\u00D7', '');
                 // deleteFromStorage(value_delete);
-            };
+            });
         };
         var all = $("#all");
         all.html(number.length + " all-item");
@@ -81,11 +81,11 @@ $(document).ready(function () {
     }
 
     // lay gia tri khi click check
-    $('#my-job').onclick = function (event) {
+    $('#my-job').click(function (event) {
         var target = event.target;
         var value = event.target.text.replace("\u00D7", '');
         updateToStorage(value.trim());
-    };
+    });
 
     // Thêm class checked vào thẻ li nào được click
     $('#my-job').on('click', function (check) {
@@ -110,9 +110,9 @@ $(document).ready(function () {
     }
 
 // reload
-    $("#all").onclick = function () {
+    $("#all").click(function () {
         window.location.reload();
-    };
+    });
 
 // Render the li
     function renderLi(ntext) {
@@ -134,7 +134,7 @@ $(document).ready(function () {
     for (i = 0; i < myNodelist.length; i++) {
         var span = $("#my-job span");
         $("span").text("\u00D7");
-        span.addclassName = "close";
+        span.addClass= "close";
         myNodelist[i].append(span);
     }
     ;
@@ -144,7 +144,7 @@ $(document).ready(function () {
     var close = $(".close");
     var i;
     for (i = 0; i < close.length; i++) {
-        close[i].onclick = function () {
+        close[i].click(function () {
             var div = this.parentElement;
             div.style.display = "none";
             var value_delete = div.text.replace('\u00D7', '');
@@ -163,7 +163,7 @@ $(document).ready(function () {
             });
             console.log(sum);
             $("#complete").html(sum + "  complete");
-        };
+        });
 
 
     }
@@ -189,7 +189,7 @@ $(document).ready(function () {
     var myclear = $("#clear");
     var jobclear = $("#my-job");
     var ar = [];
-    myclear.onclick = function () {
+    myclear.click(function () {
         Storage.setStorage('todo', ar);
         jobclear.style.display = "none";
         number = 0;
@@ -197,7 +197,7 @@ $(document).ready(function () {
         var complete = $("#complete");
         complete.text(0 + "  complete");
 
-    };
+    });
 
 
 });
