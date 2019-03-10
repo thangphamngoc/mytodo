@@ -41,7 +41,7 @@ $(document).ready(function () {
             };
         };
         var all = $("#all");
-        all.innerHTML = number.length + " all-item";
+        all.html(number.length + " all-item");
 
         var datas = Storage.getStorage('todo');
         datas.forEach(function (item) {
@@ -83,7 +83,7 @@ $(document).ready(function () {
     // lay gia tri khi click check
     $('#my-job').onclick = function (event) {
         var target = event.target;
-        var value = event.target.innerText.replace("\u00D7", '');
+        var value = event.target.text.replace("\u00D7", '');
         updateToStorage(value.trim());
     };
 
@@ -117,7 +117,7 @@ $(document).ready(function () {
 // Render the li
     function renderLi(ntext) {
         var z = $("#my-job").add("li");
-        z.innerHTML = ntext.title;
+        z.html(ntext.title);
         if (ntext.check) {
             z.addClass("checked");
         }
@@ -134,7 +134,7 @@ $(document).ready(function () {
     for (i = 0; i < myNodelist.length; i++) {
         var span = $("#my-job span");
         $("span").text("\u00D7");
-        span.aclassName = "close";
+        span.addclassName = "close";
         myNodelist[i].append(span);
     }
     ;
@@ -147,12 +147,12 @@ $(document).ready(function () {
         close[i].onclick = function () {
             var div = this.parentElement;
             div.style.display = "none";
-            var value_delete = div.innerText.replace('\u00D7', '');
+            var value_delete = div.text.replace('\u00D7', '');
             deleteFromStorage(value_delete);
             var datas = Storage.getStorage('todo');
             var number = datas.length;
 
-            $("#all").innerText = number + " all-item";
+            $("#all").text(number + " all-item");
 
             var sum = 0;
             datas.forEach(function (item) {
@@ -162,7 +162,7 @@ $(document).ready(function () {
                 } else return 1;
             });
             console.log(sum);
-            $("#complete").innerHTML = sum + "  complete";
+            $("#complete").html(sum + "  complete");
         };
 
 
@@ -175,14 +175,14 @@ $(document).ready(function () {
         var complete = $("#complete");
         var numbercp = $(".checked");
         if (numbercp.length != 0) {
-            complete.innerHTML = numbercp.length + "  complete";
-        } else complete.innerText = 0 + "  complete";
+            complete.html(numbercp.length + "  complete");
+        } else complete.text(0 + "  complete");
     };
     dem(complete);
 
     var number = myNodelist.length;
     var all = $("#all");
-    all.innerText = number + " all-item";
+    all.text(number + " all-item");
 
 
 // xoa all
@@ -193,9 +193,9 @@ $(document).ready(function () {
         Storage.setStorage('todo', ar);
         jobclear.style.display = "none";
         number = 0;
-        all.innerText = number + " all-item";
+        all.text(number + " all-item");
         var complete = $("#complete");
-        complete.innerText = 0 + "  complete";
+        complete.text(0 + "  complete");
 
     };
 
