@@ -82,9 +82,12 @@ $(document).ready(function () {
     }
 
     // lay gia tri khi click check
-    $('#my-job').click(function (event) {
-        var target = event.target;
-        var value = event.target.text.replace("\u00D7", '');
+    $('#my-job').click(function () {
+       //  var text = event.target;
+       // var value = $(this).text(text
+
+        var text = $(this).text();
+        var value = text.replace("\u00D7", '');
         updateToStorage(value.trim());
     });
 
