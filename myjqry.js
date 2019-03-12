@@ -1,12 +1,5 @@
 $(document).ready(function () {
 
-
-    $("#content").keyup(function () {
-        if (event.keyCode == 13) {
-            addJob();
-
-        }
-    });
     var Storage = {
         getStorage(name) {
             return JSON.parse(localStorage.getItem(name)) || [];
@@ -18,44 +11,36 @@ $(document).ready(function () {
             localStorage.removeItem(name);
         }
     };
- var addjob = $("#js-add");
-    addjob.click(function(){
+    $("#content").keyup(function () {
+        if (event.keyCode == 13) {
+        }
+    });
+    $("#js-add").click(function () {
         var inputValue = $("#my-input").val();
         if (inputValue == "") {
             alert("ban chua nhap noi dung");
             return false;
         }
-
-        $("#my-job").append("<li>"+inputValue+"</li>");
-        $("#my-job").value = "";
+        $("#my-job").append("<li>" + inputValue + "</li>");
+        $("#my-input").val('');
         $("li").append("<span>\u00D7</span>");
         $("li span").addClass("close");
         // gán lại sự kiện cho các nút xóa
-        var close = $(".close");
-        for (i = 0; i < close.length; i++) {
-            close[i].click(function () {
-                // $(this).parent().style.display = "none";
-                var div = $(this).parent();
-                div.style.display = "none";
-                // var value_delete = div.innerText.replace('\u00D7', '');
-                // deleteFromStorage(value_delete);
-            });
-        };
-
+        $('.close').on('click', function () {
+            $(this).parent().hide();
+            var b = $(this).text();
+            var value_delete = b.replace('×', '');
+            deleteFromStorage(value_delete.trim());
+        });
         $("#all").html($("li").length + " all-item");
 
         var datas = Storage.getStorage('todo');
         datas.forEach(function (item) {
             if (inputValue == item.title) {
-                alert("job da ton tai")
+                alert("job da ton tai");
             }
-            ;
-
         });
         addToStorage(inputValue);
-
-
-
     });
 
     // local
@@ -72,7 +57,7 @@ $(document).ready(function () {
     //  gan giá tri khi click checked
     function updateToStorage(value) {
         var data = Storage.getStorage('todo');
-        data.each(function (item, key) {
+        $.each(data, function (key,item) {
             if (value == item.title) {
                 data[key].check = true;
                 return false;
@@ -82,29 +67,23 @@ $(document).ready(function () {
     }
 
     // lay gia tri khi click check
-    $('#my-job').click(function () {
-       //  var text = event.target;
-       // var value = $(this).text(text
-
+    $("#my-job").on('click', 'li', function () {
         var text = $(this).text();
-        var value = text.replace("\u00D7", '');
+        var value =text.replace("\u00D7", '');
         updateToStorage(value.trim());
     });
 
     // Thêm class checked vào thẻ li nào được click
-    $('#my-job').on('click', function (check) {
-            if (check.target.tagName === "LI") {
-                check.target.classList.toggle("checked");
-                dem(complete);
-            }
-        },
-        false
-    );
+    $("#my-job").on('click', 'li', function () {
+        $(this).toggleClass("checked");
+        dem(complete);
+    });
 
 // xóa giá trị trong local storega
     function deleteFromStorage(text) {
         var datas = Storage.getStorage('todo');
-        datas.each(function (item, i) {
+
+        $.each(datas, function (i,item) {
             if (item.title == text) {
                 datas.splice(i, 1);
                 Storage.setStorage('todo', datas);
@@ -112,68 +91,49 @@ $(document).ready(function () {
             }
         });
     }
-
+    // click hide phan tu chua complete
+    $("#complete").click(function () {
+        $("li:not(.checked)").hide();
+    });
 // reload
     $("#all").click(function () {
         window.location.reload();
     });
 
 // Render the li
-    function renderLi(ntext) {
-        var z = $("#my-job").add("li");
-        z.html(ntext.title);
-        if (ntext.check) {
-            z.addClass("checked");
-        }
-        return z;
+    function renderLi(item) {
+        let name_class = item.check ? 'checked' : '';
+        return "<li class='"+ name_class +"'>" + item.title + "</li>";
     }
 
     var job = Storage.getStorage("todo");
-    job.forEach(function (datas) {
-        $("#my-job").append(renderLi(datas));
+    $.each(job, function (i, item) {
+        $("#my-job").append(renderLi(item));
+
     });
+
     // tạo nút xóa sau thẻ li
     var myNodelist = $("li");
-    var i;
-    for (i = 0; i < myNodelist.length; i++) {
-        var span = $("#my-job span");
-        $("span").text("\u00D7");
-        span.addClass= "close";
-        myNodelist[i].append(span);
-    }
-    ;
-
-
+    $("#my-job li").append("<span></span>");
+    $("span").not(':first').text('\u00D7');
+    $("span").not(':first').addClass("close");
     //Khi button xóa được click thì ẩn phần tử li chứa nó
-    var close = $(".close");
-    console.log(close.length);
-    var i;
-    for (i = 0; i < close.length; i++) {
-        close[i].click(function () {
-            var div = this.parentElement;
-            div.style.display = "none";
-            var value_delete = div.text.replace('\u00D7', '');
-            deleteFromStorage(value_delete);
-            var datas = Storage.getStorage('todo');
-            var number = datas.length;
-
-            $("#all").text(number + " all-item");
-
-            var sum = 0;
-            datas.forEach(function (item) {
-                if (item.check == true) {
-                    sum += 1;
-
-                } else return 1;
-            });
-            console.log(sum);
-            $("#complete").html(sum + "  complete");
+    $('.close').on('click', function () {
+        var b = $(this).parent().text();
+        $(this).parent().hide();
+        var value_delete = b.replace('×', '');
+        deleteFromStorage(value_delete.trim());
+        var datas = Storage.getStorage('todo');
+        var number = datas.length;
+        $("#all").text(number + " all-item");
+        var sum = 0;
+        datas.forEach(function (item) {
+            if (item.check) {
+                sum += 1;
+            } else return 1;
         });
-
-
-    }
-    ;
-
+        $("#complete").html(sum + "  complete");
+    });
 
     // dem job complete
     function dem(complete) {
@@ -181,43 +141,22 @@ $(document).ready(function () {
         var numbercp = $(".checked");
         if (numbercp.length != 0) {
             complete.html(numbercp.length + "  complete");
-        } else complete.text(0 + "  complete");
+        } else {
+            complete.text(0 + "  complete");
+        }
     };
     dem(complete);
-
     var number = myNodelist.length;
     var all = $("#all");
     all.text(number + " all-item");
-
-
 // xoa all
-    var myclear = $("#clear");
-    var jobclear = $("#my-job");
     var ar = [];
-    myclear.click(function () {
+    $("#clear").click(function () {
         Storage.setStorage('todo', ar);
-        jobclear.style.display = "none";
+        $("#my-job").hide();
         number = 0;
         all.text(number + " all-item");
         var complete = $("#complete");
         complete.text(0 + "  complete");
-
     });
-
-
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

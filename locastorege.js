@@ -147,7 +147,8 @@ window.onload = function () {
         span.className = "close";
         span.appendChild(txt);
         myNodelist[i].appendChild(span);
-    };
+    }
+    ;
 
 
     //Khi button xóa được click thì ẩn phần tử li chứa nó
@@ -159,31 +160,22 @@ window.onload = function () {
             div.style.display = "none";
             var value_delete = div.innerText.replace('\u00D7', '');
             deleteFromStorage(value_delete);
-
-
             var all = document.getElementById("all");
-
-
             var datas = Storage.getStorage('todo');
             var number = datas.length;
-
             all.innerText = number + " all-item";
-
             var sum = 0;
             datas.forEach(function (item) {
-                if (item.check == true)
-                {
+                if (item.check == true) {
                     sum += 1;
-
                 } else return 1;
             });
             console.log(sum);
             var complete = document.getElementById("complete");
             complete.innerHTML = sum + "  complete";
         };
-
-
-    };
+    }
+    ;
 // // click an cac job chua complete
 // var checkcp = document.getElementById("complete");
 //
@@ -201,33 +193,33 @@ window.onload = function () {
 // };
 
 // dem job complete
-function dem(complete) {
-    var complete = document.getElementById("complete");
-    var numbercp = document.getElementsByClassName("checked");
-    if (numbercp.length != 0) {
-        complete.innerHTML = numbercp.length + "  complete";
-    } else complete.innerText = 0 + "  complete";
-};
-dem(complete);
+    function dem(complete) {
+        var complete = document.getElementById("complete");
+        var numbercp = document.getElementsByClassName("checked");
+        if (numbercp.length != 0) {
+            complete.innerHTML = numbercp.length + "  complete";
+        } else complete.innerText = 0 + "  complete";
+    };
+    dem(complete);
 
-var number = myNodelist.length;
-var all = document.getElementById("all");
-all.innerText = number + " all-item";
+    var number = myNodelist.length;
+    var all = document.getElementById("all");
+    all.innerText = number + " all-item";
 
 
 // xoa all
-var myclear = document.getElementById("clear");
-var jobclear = document.getElementById("my-job");
-var ar = [];
-myclear.onclick = function () {
-    Storage.setStorage('todo', ar);
-    jobclear.style.display = "none";
-    number = 0;
-    all.innerText = number + " all-item";
-    var complete = document.getElementById("complete");
-    complete.innerText = 0 + "  complete";
+    var myclear = document.getElementById("clear");
+    var jobclear = document.getElementById("my-job");
+    var ar = [];
+    myclear.onclick = function () {
+        Storage.setStorage('todo', ar);
+        jobclear.style.display = "none";
+        number = 0;
+        all.innerText = number + " all-item";
+        var complete = document.getElementById("complete");
+        complete.innerText = 0 + "  complete";
 
-};
+    };
 }
 ;
 
